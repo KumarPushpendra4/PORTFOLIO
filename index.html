@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pushpendra | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        /* Custom Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f1016; /* Deep dark background */
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Grid Background */
+        .bg-grid {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Animations */
+        @keyframes orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes counter-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .orbit-container { animation: orbit 20s linear infinite; }
+        .orbit-icon { animation: counter-rotate 20s linear infinite; }
+        .floating { animation: float 3s ease-in-out infinite; }
+
+        /* Glow Effects */
+        .glow-text { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+        .glow-card { pointer-events: auto; }
+        .glow-card:hover { box-shadow: 0 0 30px rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.5); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0f1016; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        /* Typing Animation */
+        .cursor {
+            border-right: 2px solid #3b82f6;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            50%, 100% { border-color: #3b82f6; }
+        }
+    </style>
+</head>
+<body class="bg-grid min-h-screen relative">
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="fixed top-0 w-full z-50 bg-[#0f1016]/80 backdrop-blur-md border-b border-gray-800" data-aos="fade-down" data-aos-duration="1000">
+        <div class="flex justify-between items-center px-6 md:px-12 py-4 max-w-7xl mx-auto">
+            <div class="text-2xl font-bold tracking-wider cursor-pointer" onclick="window.scrollTo(0,0)">
+                <span class="text-blue-500">{</span> KUMAR PUSHPENDRA PRAKASH <span class="text-blue-500">}</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8 text-gray-300 font-medium">
+                <a href="#about" class="hover:text-blue-400 transition">About</a>
+                <a href="#skills" class="hover:text-blue-400 transition">Skills</a>
+                <a href="#projects" class="hover:text-blue-400 transition">Projects</a>
+                <a href="#faqs" class="hover:text-blue-400 transition">FAQs</a>
+                <a href="#contact" class="hover:text-blue-400 transition">Contact</a>
+            </div>
+
+            <a href="Pushpendra Resume.pdf" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-medium transition shadow-lg shadow-blue-600/30 text-sm">
+                Resume <i class="fa-solid fa-download ml-2"></i>
+            </a>
+        </div>
+    </nav>
+
+    <section id="about" class="pt-32 pb-20 max-w-7xl mx-auto px-6 md:px-12 flex flex-col-reverse md:flex-row items-center justify-between min-h-screen overflow-hidden">
+        <div class="w-full md:w-1/2 mt-12 md:mt-0 z-10" data-aos="fade-right" data-aos-duration="1200">
+            <div class="inline-block bg-blue-900/30 border border-blue-500/30 text-blue-400 px-4 py-1 rounded-full text-sm font-semibold mb-6">
+                Software Developer, YouTuber & Designer
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-4">Hey! I'm <span class="text-blue-500 glow-text cursor" id="typed-h1-span"></span></h1>
+            <h2 class="text-3xl md:text-4xl font-semibold mb-6">A STUDENT @ KIIT</h2>
+            <p class="text-gray-400 text-lg leading-relaxed mb-8 max-w-xl">
+                I'm KUMAR PUSHPENDRA PRAKASHG, a passionate Software Developer specializing in building fast, scalable, and secure web applications using the MERN stack (MongoDB, Express, React, Node.js) and Next.js.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#projects" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition shadow-lg shadow-blue-600/40">
+                    Check portfolio
+                </a>
+                <a href="#contact" class="border border-gray-600 hover:border-white text-gray-300 hover:text-white px-8 py-3 rounded-lg font-semibold transition">
+                    Contact Me
+                </a>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 flex justify-center items-center relative h-[450px]" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+            <div class="absolute w-[350px] h-[350px] bg-blue-600/20 rounded-full blur-3xl -z-10"></div>
+            <div class="orbit-container absolute w-[400px] h-[400px] rounded-full border border-dashed border-gray-700">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 text-blue-400 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-react"></i></div>
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 text-yellow-400 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-python"></i></div>
+                <div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 text-green-500 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-node-js"></i></div>
+                <div class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="js.png" alt="JavaScript" class="w-6 h-6"></div>
+            </div>
+            <div class="relative z-10 w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-gray-800 shadow-2xl bg-gray-900">
+                <img src="IMG.png" alt="Harsh Profile" class="w-full h-full object-cover object-top hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50 pointer-events-auto">
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-20 bg-[#0a0b10] overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">My <span class="text-blue-500">Skills</span></h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition duration-300 flex flex-col items-center gap-3 glow-card group" data-aos="zoom-in" data-aos-delay="100">
+                    <i class="fa-brands fa-react text-5xl text-blue-400 group-hover:scale-110 transition"></i>
+                    <h3 class="font-semibold text-lg">React & Next.js</h3>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700 hover:border-green-500 transition duration-300 flex flex-col items-center gap-3 glow-card group" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="fa-brands fa-node text-5xl text-green-500 group-hover:scale-110 transition"></i>
+                    <h3 class="font-semibold text-lg">Node.js</h3>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700 hover:border-yellow-500 transition duration-300 flex flex-col items-center gap-3 glow-card group" data-aos="zoom-in" data-aos-delay="300">
+                    <i class="fa-brands fa-python text-5xl text-yellow-400 group-hover:scale-110 transition"></i>
+                    <h3 class="font-semibold text-lg">Python & Django</h3>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700 hover:border-orange-500 transition duration-300 flex flex-col items-center gap-3 glow-card group" data-aos="zoom-in" data-aos-delay="400">
+                    <i class="fa-solid fa-database text-5xl text-orange-500 group-hover:scale-110 transition"></i>
+                    <h3 class="font-semibold text-lg">MongoDB</h3>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700 hover:border-cyan-400 transition duration-300 flex flex-col items-center gap-3 glow-card group" data-aos="zoom-in" data-aos-delay="500">
+                    <i class="fa-brands fa-css3-alt text-5xl text-cyan-400 group-hover:scale-110 transition"></i>
+                    <h3 class="font-semibold text-lg">Tailwind CSS</h3>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700 hover:border-purple-500 transition duration-300 flex flex-col items-center gap-3 glow-card group" data-aos="zoom-in" data-aos-delay="600">
+                    <i class="fa-brands fa-git-alt text-5xl text-purple-500 group-hover:scale-110 transition"></i>
+                    <h3 class="font-semibold text-lg">Git & GitHub</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="design" class="py-20 bg-[#0a0b10] overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">My <span class="text-blue-500">Design</span> Work</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-gradient-to-br from-pink-900 to-gray-900 flex items-center justify-center">
+                        <i class="fa-solid fa-palette text-6xl text-pink-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">UI/UX Designs</h3>
+                        <p class="text-gray-400 text-sm mb-4">Creative user interface designs focusing on user experience and modern aesthetics.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-xs bg-pink-900/50 text-pink-300 px-2 py-1 rounded">Figma</span>
+                            <span class="text-xs bg-purple-900/50 text-purple-300 px-2 py-1 rounded">Adobe XD</span>
+                        </div>
+                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">View Designs <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-gradient-to-br from-indigo-900 to-gray-900 flex items-center justify-center">
+                        <i class="fa-solid fa-image text-6xl text-indigo-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Graphic Design</h3>
+                        <p class="text-gray-400 text-sm mb-4">Eye-catching graphics and branding materials for various projects and clients.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-xs bg-indigo-900/50 text-indigo-300 px-2 py-1 rounded">Photoshop</span>
+                            <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">Illustrator</span>
+                        </div>
+                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">View Portfolio <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 bg-gradient-to-br from-teal-900 to-gray-900 flex items-center justify-center">
+                        <i class="fa-solid fa-video text-6xl text-teal-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Video Editing</h3>
+                        <p class="text-gray-400 text-sm mb-4">Professional video editing for YouTube content and promotional materials.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-xs bg-teal-900/50 text-teal-300 px-2 py-1 rounded">Premiere Pro</span>
+                            <span class="text-xs bg-orange-900/50 text-orange-300 px-2 py-1 rounded">After Effects</span>
+                        </div>
+                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">Watch Videos <i class="fa-brands fa-youtube ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">Featured <span class="text-blue-500">Projects</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-gradient-to-br from-blue-900 to-gray-900 flex items-center justify-center">
+                        <i class="fa-solid fa-laptop-code text-6xl text-blue-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">NXTVEL Platform</h3>
+                        <p class="text-gray-400 text-sm mb-4">A scalable web platform built with Next.js and MongoDB designed for high-performance business solutions.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-xs bg-blue-900/50 text-blue-300 px-2 py-1 rounded">Next.js</span>
+                            <span class="text-xs bg-green-900/50 text-green-300 px-2 py-1 rounded">Node</span>
+                        </div>
+                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">View Project <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-gradient-to-br from-purple-900 to-gray-900 flex items-center justify-center">
+                        <i class="fa-solid fa-cart-shopping text-6xl text-purple-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">E-Commerce API</h3>
+                        <p class="text-gray-400 text-sm mb-4">Robust REST API for e-commerce handling payments, users, and inventory management.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-xs bg-yellow-900/50 text-yellow-300 px-2 py-1 rounded">Express</span>
+                            <span class="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded">MongoDB</span>
+                        </div>
+                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">View GitHub <i class="fa-brands fa-github ml-1"></i></a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 bg-gradient-to-br from-green-900 to-gray-900 flex items-center justify-center">
+                        <i class="fa-solid fa-chart-line text-6xl text-green-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Analytics Dashboard</h3>
+                        <p class="text-gray-400 text-sm mb-4">Real-time data visualization dashboard for tracking server health and user metrics.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">React</span>
+                            <span class="text-xs bg-orange-900/50 text-orange-300 px-2 py-1 rounded">D3.js</span>
+                        </div>
+                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">Live Demo <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faqs" class="py-20 bg-[#0a0b10] overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">Frequently Asked <span class="text-blue-500">Questions</span></h2>
+            
+            <div class="space-y-4">
+                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="font-semibold text-lg mb-2">What tech stack do you primarily use?</h3>
+                    <p class="text-gray-400 text-sm">I specialize in the MERN stack (MongoDB, Express, React, Node.js) but I am also proficient in Next.js and Python/Django.</p>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="font-semibold text-lg mb-2">Are you available for freelance work?</h3>
+                    <p class="text-gray-400 text-sm">Yes, I am currently open to freelance projects and consulting opportunities. Feel free to contact me.</p>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="font-semibold text-lg mb-2">How do you handle project management?</h3>
+                    <p class="text-gray-400 text-sm">I use agile methodologies, ensuring clear communication, regular updates, and timely delivery of milestones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 max-w-7xl mx-auto px-6 md:px-12 overflow-hidden">
+        <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">Get In <span class="text-blue-500">Touch</span></h2>
+        
+        <div class="flex flex-col md:flex-row gap-12 bg-gray-800/30 p-8 md:p-12 rounded-2xl border border-gray-700 backdrop-blur-sm">
+            
+            <div class="w-full md:w-1/3 space-y-8" data-aos="fade-right" data-aos-delay="200">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Let's build something amazing.</h3>
+                    <p class="text-gray-400">I'm always interested in hearing about new projects and opportunities.</p>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-600/20 text-blue-500 rounded-full flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-400">Email</p>
+                        <p class="font-medium">Kumarpushpendra9067@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-600/20 text-blue-500 rounded-full flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-400">Location</p>
+                        <p class="font-medium">India</p>
+                    </div>
+                </div>
+
+                <div class="pt-6">
+                    <p class="text-sm text-gray-400 mb-3">Connect with me</p>
+                    <div class="flex gap-4 text-2xl">
+                        <a href="#" class="text-gray-400 hover:text-blue-500 transition"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <form class="w-full md:w-2/3 space-y-6" data-aos="fade-left" data-aos-delay="400">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">Name</label>
+                        <input type="text" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">Email</label>
+                        <input type="email" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="your@email.com">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Subject</label>
+                    <input type="text" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="Project Inquiry">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Message</label>
+                    <textarea rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="Tell me about your project..."></textarea>
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition w-full md:w-auto">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="border-t border-gray-800 bg-[#0a0b10] py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 KUMAR PUSHPENDRA PRAKASH. All rights reserved.</p>
+            <p class="mt-2">Built with <i class="fa-solid fa-heart text-red-500"></i> using Tailwind CSS</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true, // Animations happen only once while scrolling down
+        });
+
+        // Typing Animation for H1 Span
+        const h1Text = "PUSHPENDRA";
+        const h1Span = document.getElementById('typed-h1-span');
+        let h1Index = 0;
+
+        function typeH1() {
+            if (h1Index < h1Text.length) {
+                h1Span.innerHTML += h1Text.charAt(h1Index);
+                h1Index++;
+                setTimeout(typeH1, 200); // Adjust speed here (milliseconds per character)
+            } else {
+                // Remove cursor after typing is complete
+                h1Span.classList.remove('cursor');
+            }
+        }
+
+
+
+        // Start typing animation when page loads
+        window.addEventListener('load', typeH1);
+
+        // Background Animation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = `rgba(59, 130, 246, ${this.opacity})`;
+            }
+
+            update(scrollY) {
+                this.x += this.speedX;
+                this.y += this.speedY + scrollY * 0.001; // Subtle scroll influence
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        let lastScrollY = window.scrollY;
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const currentScrollY = window.scrollY;
+            const scrollDelta = currentScrollY - lastScrollY;
+            lastScrollY = currentScrollY;
+
+            particles.forEach(particle => {
+                particle.update(scrollDelta);
+                particle.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
