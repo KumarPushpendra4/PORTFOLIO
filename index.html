@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pushpendra | Portfolio</title>
+    <meta name="description" content="Kumar Pushpendra Prakash — Software Developer, YouTuber & Designer. Specializing in MERN stack, Next.js, and Python. Student at KIIT University.">
+    <meta property="og:title" content="Pushpendra Kumar Prakash | Portfolio">
+    <meta property="og:description" content="Software Developer specializing in MERN stack, Next.js, and Python.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
         /* Custom Font */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        /* Font loaded via <link> in <head> for better performance */
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -54,7 +62,9 @@
         }
 
         .orbit-container { animation: orbit 20s linear infinite; }
+        .orbit-reverse { animation: counter-rotate 25s linear infinite; }
         .orbit-icon { animation: counter-rotate 20s linear infinite; }
+        .orbit-reverse .orbit-icon { animation: orbit 25s linear infinite; }
         .floating { animation: float 3s ease-in-out infinite; }
 
         /* Glow Effects */
@@ -78,6 +88,30 @@
             0%, 50% { border-color: transparent; }
             50%, 100% { border-color: #3b82f6; }
         }
+
+        /* FAQ Accordion */
+        .faq-item { transition: border-color 0.3s ease; }
+        .faq-item:hover { border-color: rgba(59, 130, 246, 0.4); }
+        .faq-icon { transition: transform 0.3s ease; }
+        .faq-icon.rotated { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; padding-top: 0; padding-bottom: 0; }
+        .faq-answer.open { max-height: 200px; padding-bottom: 1.5rem; }
+
+        /* Mobile Menu Animation */
+        #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+        #mobile-menu.open { max-height: 500px; padding-top: 1rem; padding-bottom: 1rem; }
+
+        /* Form success message */
+        .form-success { display: none; text-align: center; padding: 2rem; }
+        .form-success.show { display: block; }
+
+        /* Certificate Lightbox */
+        .cert-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 2rem; }
+        .cert-overlay.active { display: flex; }
+        .cert-overlay img { max-width: 90vw; max-height: 85vh; border-radius: 12px; box-shadow: 0 25px 60px rgba(0,0,0,0.5); }
+        .cert-card { cursor: pointer; }
+        .cert-card:hover .cert-img { transform: scale(1.03); }
+        .cert-img { transition: transform 0.4s ease; }
     </style>
 </head>
 <body class="bg-grid min-h-screen relative">
@@ -93,11 +127,28 @@
                 <a href="#about" class="hover:text-blue-400 transition">About</a>
                 <a href="#skills" class="hover:text-blue-400 transition">Skills</a>
                 <a href="#projects" class="hover:text-blue-400 transition">Projects</a>
-                <a href="#faqs" class="hover:text-blue-400 transition">FAQs</a>
+                <a href="#certifications" class="hover:text-blue-400 transition">Certificates</a>
                 <a href="#contact" class="hover:text-blue-400 transition">Contact</a>
             </div>
 
-            <a href="Pushpendra Resume.pdf" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-medium transition shadow-lg shadow-blue-600/30 text-sm">
+            <div class="flex items-center gap-4">
+                <a href="assets/resume/Pushpendra-Resume.pdf" download class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-medium transition shadow-lg shadow-blue-600/30 text-sm hidden md:inline-flex items-center">
+                    Resume <i class="fa-solid fa-download ml-2"></i>
+                </a>
+                <button id="hamburger-btn" class="md:hidden text-white text-2xl focus:outline-none p-2" aria-label="Toggle menu">
+                    <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-[#0f1016]/95 backdrop-blur-md border-t border-gray-800 px-6">
+            <a href="#about" class="block text-gray-300 hover:text-blue-400 transition font-medium py-3 mobile-nav-link">About</a>
+            <a href="#skills" class="block text-gray-300 hover:text-blue-400 transition font-medium py-3 mobile-nav-link">Skills</a>
+            <a href="#projects" class="block text-gray-300 hover:text-blue-400 transition font-medium py-3 mobile-nav-link">Projects</a>
+            <a href="#certifications" class="block text-gray-300 hover:text-blue-400 transition font-medium py-3 mobile-nav-link">Certificates</a>
+            <a href="#contact" class="block text-gray-300 hover:text-blue-400 transition font-medium py-3 mobile-nav-link">Contact</a>
+            <a href="assets/resume/Pushpendra-Resume.pdf" download class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-medium transition shadow-lg shadow-blue-600/30 text-sm my-3">
                 Resume <i class="fa-solid fa-download ml-2"></i>
             </a>
         </div>
@@ -111,7 +162,7 @@
             <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-4">Hey! I'm <span class="text-blue-500 glow-text cursor" id="typed-h1-span"></span></h1>
             <h2 class="text-3xl md:text-4xl font-semibold mb-6">A STUDENT @ KIIT</h2>
             <p class="text-gray-400 text-lg leading-relaxed mb-8 max-w-xl">
-                I'm KUMAR PUSHPENDRA PRAKASHG, a passionate Software Developer specializing in building fast, scalable, and secure web applications using the MERN stack (MongoDB, Express, React, Node.js) and Next.js.
+                I'm KUMAR PUSHPENDRA PRAKASH, a passionate Software Developer specializing in building fast, scalable, and secure web applications using the MERN stack (MongoDB, Express, React, Node.js) and Next.js.
             </p>
             <div class="flex space-x-4">
                 <a href="#projects" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition shadow-lg shadow-blue-600/40">
@@ -125,14 +176,24 @@
 
         <div class="w-full md:w-1/2 flex justify-center items-center relative h-[450px]" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
             <div class="absolute w-[350px] h-[350px] bg-blue-600/20 rounded-full blur-3xl -z-10"></div>
-            <div class="orbit-container absolute w-[400px] h-[400px] rounded-full border border-dashed border-gray-700">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 text-blue-400 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-react"></i></div>
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 text-yellow-400 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-python"></i></div>
-                <div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 text-green-500 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-node-js"></i></div>
-                <div class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 bg-gray-800 p-3 rounded-full border border-gray-600 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="js.png" alt="JavaScript" class="w-6 h-6"></div>
+            <!-- Outer orbit: clockwise -->
+            <div class="orbit-container absolute w-[450px] h-[450px] rounded-full border border-dashed border-gray-700">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full border border-gray-600 text-blue-400 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-react"></i></div>
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-3 rounded-full border border-gray-600 text-yellow-400 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-python"></i></div>
+                <div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full border border-gray-600 text-green-500 text-2xl shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><i class="fa-brands fa-node-js"></i></div>
+                <div class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 p-3 rounded-full border border-gray-600 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="assets/images/skills/js.png" alt="JavaScript" class="w-6 h-6"></div>
+                <div class="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full border border-gray-600 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="assets/images/profile/IMG.png" alt="Profile" class="w-6 h-6 rounded-full object-cover"></div>
             </div>
+            <!-- Inner orbit: counter-clockwise (opposite) -->
+            <div class="orbit-reverse absolute w-[340px] h-[340px] rounded-full border border-dashed border-gray-600">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 rounded-full border border-gray-500 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="assets/images/skills/c.png" alt="C" class="w-5 h-5"></div>
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-2 rounded-full border border-gray-500 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="assets/images/skills/c++.png" alt="C++" class="w-5 h-5"></div>
+                <div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 p-2 rounded-full border border-gray-500 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="assets/images/skills/python.png" alt="Python" class="w-5 h-5"></div>
+                <div class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 p-2 rounded-full border border-gray-500 shadow-lg orbit-icon hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50"><img src="assets/images/skills/swift.png" alt="Swift" class="w-5 h-5"></div>
+            </div>
+            <!-- Profile picture (center, on top) -->
             <div class="relative z-10 w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-gray-800 shadow-2xl bg-gray-900">
-                <img src="IMG.png" alt="Harsh Profile" class="w-full h-full object-cover object-top hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50 pointer-events-auto">
+                <img src="assets/images/profile/IMG.png" alt="Kumar Pushpendra Prakash" class="w-full h-full object-cover object-top hover:scale-110 transition-all duration-300 hover:shadow-blue-500/50 pointer-events-auto">
             </div>
         </div>
     </section>
@@ -175,9 +236,9 @@
             <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">My <span class="text-blue-500">Design</span> Work</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="h-48 bg-gradient-to-br from-pink-900 to-gray-900 flex items-center justify-center">
-                        <i class="fa-solid fa-palette text-6xl text-pink-500/50"></i>
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/design/design-uiux.jpg" alt="UI/UX Design Work" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">UI/UX Designs</h3>
@@ -190,9 +251,9 @@
                     </div>
                 </div>
 
-                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="h-48 bg-gradient-to-br from-indigo-900 to-gray-900 flex items-center justify-center">
-                        <i class="fa-solid fa-image text-6xl text-indigo-500/50"></i>
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/design/design-graphic.jpg" alt="Graphic Design Work" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">Graphic Design</h3>
@@ -205,9 +266,9 @@
                     </div>
                 </div>
 
-                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="h-48 bg-gradient-to-br from-teal-900 to-gray-900 flex items-center justify-center">
-                        <i class="fa-solid fa-video text-6xl text-teal-500/50"></i>
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 overflow-hidden">
+                        <img src="assets/images/design/design-video.jpg" alt="Video Editing Work" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">Video Editing</h3>
@@ -228,72 +289,207 @@
             <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">Featured <span class="text-blue-500">Projects</span></h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="h-48 bg-gradient-to-br from-blue-900 to-gray-900 flex items-center justify-center">
-                        <i class="fa-solid fa-laptop-code text-6xl text-blue-500/50"></i>
+                <!-- Project 1: SARA AI Personal Assistant -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-52 overflow-hidden">
+                        <img src="assets/images/projects/project-sara.png" alt="SARA AI Personal Assistant Screenshot" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">NXTVEL Platform</h3>
-                        <p class="text-gray-400 text-sm mb-4">A scalable web platform built with Next.js and MongoDB designed for high-performance business solutions.</p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="text-xs bg-blue-900/50 text-blue-300 px-2 py-1 rounded">Next.js</span>
-                            <span class="text-xs bg-green-900/50 text-green-300 px-2 py-1 rounded">Node</span>
+                        <h3 class="text-xl font-bold mb-2">SARA — AI Personal Assistant</h3>
+                        <p class="text-gray-400 text-sm mb-4">Python-based AI assistant with face recognition, voice unlock, keyboard/mouse control, email automation, PPT maker, weather, finance tools & more.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs bg-yellow-900/50 text-yellow-300 px-2 py-1 rounded">Python</span>
+                            <span class="text-xs bg-violet-900/50 text-violet-300 px-2 py-1 rounded">AI/ML</span>
+                            <span class="text-xs bg-green-900/50 text-green-300 px-2 py-1 rounded">Face Recognition</span>
                         </div>
-                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">View Project <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <a href="https://github.com/KumarPushpendra4/Personal-Assistant-main" target="_blank" rel="noopener" class="text-blue-400 hover:text-white font-medium text-sm inline-flex items-center gap-1">View on GitHub <i class="fa-brands fa-github ml-1"></i></a>
                     </div>
                 </div>
 
-                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="h-48 bg-gradient-to-br from-purple-900 to-gray-900 flex items-center justify-center">
-                        <i class="fa-solid fa-cart-shopping text-6xl text-purple-500/50"></i>
+                <!-- Project 2: School Management System -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-52 overflow-hidden">
+                        <img src="assets/images/projects/project-school.png" alt="School Management System Screenshot" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">E-Commerce API</h3>
-                        <p class="text-gray-400 text-sm mb-4">Robust REST API for e-commerce handling payments, users, and inventory management.</p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="text-xs bg-yellow-900/50 text-yellow-300 px-2 py-1 rounded">Express</span>
-                            <span class="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded">MongoDB</span>
+                        <h3 class="text-xl font-bold mb-2">School Management System</h3>
+                        <p class="text-gray-400 text-sm mb-4">Complete school management platform with modules for students, staff, attendance tracking, fee management, academics & notice board.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs bg-green-900/50 text-green-300 px-2 py-1 rounded">Django</span>
+                            <span class="text-xs bg-yellow-900/50 text-yellow-300 px-2 py-1 rounded">Python</span>
+                            <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">HTML/CSS</span>
                         </div>
-                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">View GitHub <i class="fa-brands fa-github ml-1"></i></a>
+                        <a href="https://github.com/KumarPushpendra4/school-management" target="_blank" rel="noopener" class="text-blue-400 hover:text-white font-medium text-sm inline-flex items-center gap-1">View on GitHub <i class="fa-brands fa-github ml-1"></i></a>
                     </div>
                 </div>
 
-                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="h-48 bg-gradient-to-br from-green-900 to-gray-900 flex items-center justify-center">
-                        <i class="fa-solid fa-chart-line text-6xl text-green-500/50"></i>
+                <!-- Project 3: Portfolio 2.0 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:-translate-y-2 transition duration-300 shadow-xl glow-card group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-52 bg-gradient-to-br from-blue-900 via-indigo-900 to-gray-900 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.15),transparent_70%)]"></div>
+                        <div class="text-center z-10">
+                            <i class="fa-solid fa-wand-magic-sparkles text-6xl text-blue-400/70 group-hover:scale-110 transition duration-300"></i>
+                            <p class="text-blue-300/60 text-xs mt-3 font-semibold tracking-widest">AI STUDIO APP</p>
+                        </div>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Analytics Dashboard</h3>
-                        <p class="text-gray-400 text-sm mb-4">Real-time data visualization dashboard for tracking server health and user metrics.</p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">React</span>
-                            <span class="text-xs bg-orange-900/50 text-orange-300 px-2 py-1 rounded">D3.js</span>
+                        <h3 class="text-xl font-bold mb-2">Portfolio 2.0 — AI Studio</h3>
+                        <p class="text-gray-400 text-sm mb-4">Next-gen portfolio application built with TypeScript and AI Studio, featuring modern UI components and intelligent interactions.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs bg-blue-900/50 text-blue-300 px-2 py-1 rounded">TypeScript</span>
+                            <span class="text-xs bg-indigo-900/50 text-indigo-300 px-2 py-1 rounded">Next.js</span>
+                            <span class="text-xs bg-purple-900/50 text-purple-300 px-2 py-1 rounded">AI Studio</span>
                         </div>
-                        <a href="#" class="text-blue-400 hover:text-white font-medium text-sm">Live Demo <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                        <a href="https://github.com/KumarPushpendra4/portfolio2.0" target="_blank" rel="noopener" class="text-blue-400 hover:text-white font-medium text-sm inline-flex items-center gap-1">View on GitHub <i class="fa-brands fa-github ml-1"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-20 bg-[#0a0b10] overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <h2 class="text-4xl font-bold mb-4 text-center" data-aos="fade-up">Certifications & <span class="text-blue-500">Achievements</span></h2>
+            <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Professional certifications that validate my skills and continuous learning journey.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Certificate 1: Oracle OCI GenAI Professional -->
+                <div class="cert-card bg-gray-800/60 rounded-xl border border-gray-700 overflow-hidden hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="100" onclick="openCertModal(this)">
+                    <div class="h-44 overflow-hidden bg-gradient-to-br from-red-900/20 to-gray-900 flex items-center justify-center p-3">
+                        <img src="assets/images/certificates/cert-oracle.png" alt="Oracle OCI Generative AI Professional Certificate" class="cert-img w-full h-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-base font-bold leading-snug">OCI Generative AI Professional</h3>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-blue-400 text-xs mt-1 flex-shrink-0 ml-2"></i>
+                        </div>
+                        <p class="text-red-400 text-sm font-medium mb-2"><i class="fa-solid fa-building-columns mr-1"></i> Oracle University</p>
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="text-[10px] bg-red-900/40 text-red-300 px-2 py-0.5 rounded-full">Cloud</span>
+                            <span class="text-[10px] bg-purple-900/40 text-purple-300 px-2 py-0.5 rounded-full">Gen AI</span>
+                            <span class="text-[10px] bg-orange-900/40 text-orange-300 px-2 py-0.5 rounded-full">OCI</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 text-xs"><i class="fa-regular fa-calendar mr-1"></i> Sep 2025</span>
+                            <span class="text-xs bg-red-900/40 text-red-300 px-2 py-0.5 rounded-full font-medium">Professional</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificate 2: Deloitte Cyber Job Simulation -->
+                <div class="cert-card bg-gray-800/60 rounded-xl border border-gray-700 overflow-hidden hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="200" onclick="openCertModal(this)">
+                    <div class="h-44 overflow-hidden bg-gradient-to-br from-green-900/20 to-gray-900 flex items-center justify-center p-3">
+                        <img src="assets/images/certificates/cert-deloitte.png" alt="Deloitte Cyber Job Simulation Certificate" class="cert-img w-full h-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-base font-bold leading-snug">Cyber Job Simulation</h3>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-blue-400 text-xs mt-1 flex-shrink-0 ml-2"></i>
+                        </div>
+                        <p class="text-green-400 text-sm font-medium mb-2"><i class="fa-solid fa-building-columns mr-1"></i> Deloitte × Forage</p>
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="text-[10px] bg-green-900/40 text-green-300 px-2 py-0.5 rounded-full">Cybersecurity</span>
+                            <span class="text-[10px] bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded-full">Security</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 text-xs"><i class="fa-regular fa-calendar mr-1"></i> Jul 2025</span>
+                            <span class="text-xs bg-green-900/40 text-green-300 px-2 py-0.5 rounded-full font-medium">Completion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificate 3: Tata Data Visualisation -->
+                <div class="cert-card bg-gray-800/60 rounded-xl border border-gray-700 overflow-hidden hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="300" onclick="openCertModal(this)">
+                    <div class="h-44 overflow-hidden bg-gradient-to-br from-blue-900/20 to-gray-900 flex items-center justify-center p-3">
+                        <img src="assets/images/certificates/cert-tata.png" alt="Tata Data Visualisation Certificate" class="cert-img w-full h-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-base font-bold leading-snug">Data Visualisation</h3>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-blue-400 text-xs mt-1 flex-shrink-0 ml-2"></i>
+                        </div>
+                        <p class="text-blue-400 text-sm font-medium mb-2"><i class="fa-solid fa-building-columns mr-1"></i> Tata × Forage</p>
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="text-[10px] bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded-full">Data Viz</span>
+                            <span class="text-[10px] bg-cyan-900/40 text-cyan-300 px-2 py-0.5 rounded-full">Analytics</span>
+                            <span class="text-[10px] bg-indigo-900/40 text-indigo-300 px-2 py-0.5 rounded-full">Business</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 text-xs"><i class="fa-regular fa-calendar mr-1"></i> Jun 2025</span>
+                            <span class="text-xs bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded-full font-medium">Completion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificate 4: NASSCOM Yuva AI for All -->
+                <div class="cert-card bg-gray-800/60 rounded-xl border border-gray-700 overflow-hidden hover:-translate-y-2 transition duration-300 shadow-xl glow-card" data-aos="fade-up" data-aos-delay="400" onclick="openCertModal(this)">
+                    <div class="h-44 overflow-hidden bg-gradient-to-br from-orange-900/20 to-gray-900 flex items-center justify-center p-3">
+                        <img src="assets/images/certificates/cert-nasscom.png" alt="NASSCOM Yuva AI for All Certificate" class="cert-img w-full h-full object-contain rounded-lg">
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-base font-bold leading-snug">Yuva AI for All</h3>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-blue-400 text-xs mt-1 flex-shrink-0 ml-2"></i>
+                        </div>
+                        <p class="text-orange-400 text-sm font-medium mb-2"><i class="fa-solid fa-building-columns mr-1"></i> NASSCOM × INDIAai</p>
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="text-[10px] bg-orange-900/40 text-orange-300 px-2 py-0.5 rounded-full">AI/ML</span>
+                            <span class="text-[10px] bg-red-900/40 text-red-300 px-2 py-0.5 rounded-full">FutureSkills</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 text-xs"><i class="fa-regular fa-calendar mr-1"></i> Dec 2025</span>
+                            <span class="text-xs bg-orange-900/40 text-orange-300 px-2 py-0.5 rounded-full font-medium">Participation</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Lightbox Modal -->
+    <div id="cert-modal" class="cert-overlay" onclick="closeCertModal(event)">
+        <button class="absolute top-6 right-6 text-white text-3xl hover:text-blue-400 transition z-10" onclick="closeCertModal(event)" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <img id="cert-modal-img" src="" alt="Certificate Full View" class="relative">
+    </div>
+
     <section id="faqs" class="py-20 bg-[#0a0b10] overflow-hidden">
         <div class="max-w-4xl mx-auto px-6">
             <h2 class="text-4xl font-bold mb-12 text-center" data-aos="fade-up">Frequently Asked <span class="text-blue-500">Questions</span></h2>
             
-            <div class="space-y-4">
-                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700" data-aos="fade-up" data-aos-delay="100">
-                    <h3 class="font-semibold text-lg mb-2">What tech stack do you primarily use?</h3>
-                    <p class="text-gray-400 text-sm">I specialize in the MERN stack (MongoDB, Express, React, Node.js) but I am also proficient in Next.js and Python/Django.</p>
+            <div class="space-y-4" id="faq-container">
+                <div class="bg-gray-800 rounded-lg border border-gray-700 faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <button class="w-full flex justify-between items-center p-6 text-left focus:outline-none cursor-pointer" onclick="toggleFaq(this)">
+                        <h3 class="font-semibold text-lg">What tech stack do you primarily use?</h3>
+                        <i class="fa-solid fa-chevron-down text-blue-400 faq-icon ml-4 flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="text-gray-400 text-sm">I specialize in the MERN stack (MongoDB, Express, React, Node.js) but I am also proficient in Next.js and Python/Django.</p>
+                    </div>
                 </div>
 
-                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700" data-aos="fade-up" data-aos-delay="200">
-                    <h3 class="font-semibold text-lg mb-2">Are you available for freelance work?</h3>
-                    <p class="text-gray-400 text-sm">Yes, I am currently open to freelance projects and consulting opportunities. Feel free to contact me.</p>
+                <div class="bg-gray-800 rounded-lg border border-gray-700 faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <button class="w-full flex justify-between items-center p-6 text-left focus:outline-none cursor-pointer" onclick="toggleFaq(this)">
+                        <h3 class="font-semibold text-lg">Are you available for freelance work?</h3>
+                        <i class="fa-solid fa-chevron-down text-blue-400 faq-icon ml-4 flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="text-gray-400 text-sm">Yes, I am currently open to freelance projects and consulting opportunities. Feel free to contact me.</p>
+                    </div>
                 </div>
 
-                <div class="bg-gray-800 rounded-lg p-6 border border-gray-700" data-aos="fade-up" data-aos-delay="300">
-                    <h3 class="font-semibold text-lg mb-2">How do you handle project management?</h3>
-                    <p class="text-gray-400 text-sm">I use agile methodologies, ensuring clear communication, regular updates, and timely delivery of milestones.</p>
+                <div class="bg-gray-800 rounded-lg border border-gray-700 faq-item" data-aos="fade-up" data-aos-delay="300">
+                    <button class="w-full flex justify-between items-center p-6 text-left focus:outline-none cursor-pointer" onclick="toggleFaq(this)">
+                        <h3 class="font-semibold text-lg">How do you handle project management?</h3>
+                        <i class="fa-solid fa-chevron-down text-blue-400 faq-icon ml-4 flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="text-gray-400 text-sm">I use agile methodologies, ensuring clear communication, regular updates, and timely delivery of milestones.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -333,34 +529,38 @@
                 <div class="pt-6">
                     <p class="text-sm text-gray-400 mb-3">Connect with me</p>
                     <div class="flex gap-4 text-2xl">
-                        <a href="#" class="text-gray-400 hover:text-blue-500 transition"><i class="fa-brands fa-linkedin"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/kumar-pushpendra-prakash-9b5b36284/" target="_blank" rel="noopener" class="text-gray-400 hover:text-blue-500 transition"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://github.com/KumarPushpendra4" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-github"></i></a>
                         <a href="#" class="text-gray-400 hover:text-blue-400 transition"><i class="fa-brands fa-twitter"></i></a>
                     </div>
                 </div>
             </div>
 
-            <form class="w-full md:w-2/3 space-y-6" data-aos="fade-left" data-aos-delay="400">
+            <form id="contact-form" class="w-full md:w-2/3 space-y-6" action="https://formsubmit.co/Kumarpushpendra9067@gmail.com" method="POST" data-aos="fade-left" data-aos-delay="400">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="New Portfolio Contact Message!">
+                <input type="hidden" name="_template" value="table">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Name</label>
-                        <input type="text" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="Your Name">
+                        <label for="contact-name" class="block text-sm text-gray-400 mb-2">Name</label>
+                        <input type="text" id="contact-name" name="name" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition text-white" placeholder="Your Name">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-2">Email</label>
-                        <input type="email" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="your@email.com">
+                        <label for="contact-email" class="block text-sm text-gray-400 mb-2">Email</label>
+                        <input type="email" id="contact-email" name="email" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition text-white" placeholder="your@email.com">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-2">Subject</label>
-                    <input type="text" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="Project Inquiry">
+                    <label for="contact-subject" class="block text-sm text-gray-400 mb-2">Subject</label>
+                    <input type="text" id="contact-subject" name="subject" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition text-white" placeholder="Project Inquiry">
                 </div>
                 <div>
-                    <label class="block text-sm text-gray-400 mb-2">Message</label>
-                    <textarea rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition" placeholder="Tell me about your project..."></textarea>
+                    <label for="contact-message" class="block text-sm text-gray-400 mb-2">Message</label>
+                    <textarea rows="4" id="contact-message" name="message" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 focus:border-blue-500 focus:outline-none transition text-white" placeholder="Tell me about your project..."></textarea>
                 </div>
-                <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition w-full md:w-auto">
-                    Send Message
+                <button type="submit" id="contact-submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition w-full md:w-auto flex items-center justify-center gap-2">
+                    <span>Send Message</span>
+                    <i class="fa-solid fa-paper-plane"></i>
                 </button>
             </form>
         </div>
@@ -368,7 +568,7 @@
 
     <footer class="border-t border-gray-800 bg-[#0a0b10] py-8 mt-12">
         <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
-            <p>&copy; 2025 KUMAR PUSHPENDRA PRAKASH. All rights reserved.</p>
+            <p>&copy; <span id="copyright-year">2025</span> KUMAR PUSHPENDRA PRAKASH. All rights reserved.</p>
             <p class="mt-2">Built with <i class="fa-solid fa-heart text-red-500"></i> using Tailwind CSS</p>
         </div>
     </footer>
@@ -465,6 +665,75 @@
         }
 
         animate();
+
+        // ─── Mobile Hamburger Menu ───
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburgerBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            if (mobileMenu.classList.contains('open')) {
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-xmark');
+            } else {
+                hamburgerIcon.classList.remove('fa-xmark');
+                hamburgerIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburgerIcon.classList.remove('fa-xmark');
+                hamburgerIcon.classList.add('fa-bars');
+            });
+        });
+
+        // ─── FAQ Accordion ───
+        function toggleFaq(btn) {
+            const answer = btn.nextElementSibling;
+            const icon = btn.querySelector('.faq-icon');
+            const isOpen = answer.classList.contains('open');
+
+            // Close all FAQs first
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('rotated'));
+
+            // Toggle current if it was closed
+            if (!isOpen) {
+                answer.classList.add('open');
+                icon.classList.add('rotated');
+            }
+        }
+
+        // ─── Certificate Lightbox ───
+        function openCertModal(card) {
+            const img = card.querySelector('.cert-img');
+            if (img && img.src && !img.style.display) {
+                document.getElementById('cert-modal-img').src = img.src;
+                document.getElementById('cert-modal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeCertModal(e) {
+            if (e.target === document.getElementById('cert-modal') || e.target.closest('button')) {
+                document.getElementById('cert-modal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('cert-modal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ─── Dynamic Copyright Year ───
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
